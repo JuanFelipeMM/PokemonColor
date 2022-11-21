@@ -1,10 +1,12 @@
 
 import Pokedex from 'pokedex-promise-v2';
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import './styles.css';
 import { CirclePicker } from 'react-color';
+import LazyLoad from 'react-lazy-load';
+import { json } from 'stream/consumers';
 
-var firstLoad:boolean=false;
+var firstLoad: boolean = false;
 
 function PokemonBox() {
 
@@ -18,9 +20,9 @@ function PokemonBox() {
     const [color, setColor] = useState<string>('');
     let auxString: string = "";
 
-    if(firstLoad===false){
-        firstLoad=true;
-        setColorPick(colors[Math.floor(Math.random()*colors.length)]);
+    if (firstLoad === false) {
+        firstLoad = true;
+        setColorPick(colors[Math.floor(Math.random() * colors.length)]);
     }
 
     useEffect(() => {
@@ -30,12 +32,12 @@ function PokemonBox() {
             for (let i = 0; i < poke.length; i++) {
                 poke[i].setAttribute("style", "-webkit-text-fill-color: blueviolet");
             }
-            document.getElementsByClassName('title')[0].setAttribute("style","-webkit-text-fill-color: blueviolet");
+            document.getElementsByClassName('title')[0].setAttribute("style", "-webkit-text-fill-color: blueviolet");
         } else {
             for (let i = 0; i < poke.length; i++) {
                 poke[i].setAttribute("style", "-webkit-text-fill-color:black");
             }
-            document.getElementsByClassName('title')[0].setAttribute("style","-webkit-text-fill-color: black");
+            document.getElementsByClassName('title')[0].setAttribute("style", "-webkit-text-fill-color: black");
         }
 
         switch (colorPick) {
@@ -74,42 +76,46 @@ function PokemonBox() {
     }, [colorPick]);
 
     useEffect(() => {
+        do {
+            pokeCores=JSON.parse(JSON.stringify(""));
 
-        (async () => {
-            P.getPokemonColorByName(color)
-                .then((data) => {
-                    auxString = JSON.stringify(data);
-                    pokeCores = JSON.parse(auxString);
-                })
-                .catch((error) => {
-                    console.log('There was an ERROR: ', error);
-                });
-
-            await new Promise(resolve => setTimeout(resolve, 200));
-
-            if (pokeCores !== undefined) {
-                try {
-                    pokeCores.pokemon_species.map(pokemonAux => {
-                        P.getPokemonByName(pokemonAux.name)
-                            .then((data) => {
-                                auxString = JSON.stringify(data);
-                                pokemonsAux.push(JSON.parse(auxString));
-                            })
-                            .catch((error) => {
-                                console.log('There was an ERROR: ', error);
-                            })
+            (async () => {
+                P.getPokemonColorByName(color)
+                    .then((data) => {
+                        auxString = JSON.stringify(data);
+                        pokeCores = JSON.parse(auxString);
                     })
-                } catch (error) {
-                    console.log('There was an ERROR: ', error);
-                } finally {
-                    await new Promise(resolve => setTimeout(resolve, 200));
-                    setPokemon(pokemonsAux);
-                }
+                    .catch((error) => {
+                        pokeCores=JSON.parse(JSON.stringify(""));
+                        console.log('There was an ERROR: ', error);
+                    });
 
-            } else if (pokeCores === undefined) { console.log("Nenhum pokémon com essa cor encontrado"); }
+                await new Promise(resolve => setTimeout(resolve, 200));
 
-        })();
 
+                if (pokeCores !== undefined) {
+                    try {
+                        pokeCores.pokemon_species.map(pokemonAux => {
+                            P.getPokemonByName(pokemonAux.name)
+                                .then((data) => {
+                                    auxString = JSON.stringify(data);
+                                    pokemonsAux.push(JSON.parse(auxString));
+                                })
+                                .catch((error) => {
+                                    console.log('There was an ERROR: ', error);
+                                })
+                        })
+                    } catch (error) {
+                        console.log('There was an ERROR: ', error);
+                    } finally {
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                        setPokemon(pokemonsAux);
+                    }
+
+                } else if (pokeCores === undefined) { console.log("Nenhum pokémon com essa cor encontrado"); }
+
+            })();
+        } while (JSON.stringify(pokeCores) === "");
     }, [color]);
 
 
@@ -120,25 +126,29 @@ function PokemonBox() {
                     <h1>Pokémon Color</h1>
                     <h4>By <a href='www.linkedin.com/in/juan-felipe-moura-de-melo-371200208'>Juan Felipe</a></h4>
                 </div>
-                
+
                 <CirclePicker className='CPicker' colors={colors} onChangeComplete={(color => (setColorPick(color.hex)))}></CirclePicker>
 
             </div>
-            <div className='poke-container'>
-                {pokemons.map((pokemon, index) => {
-                    let img: string | null = pokemon.sprites.front_default;
-                    let imgPoke: string | undefined;
-                    if (img !== null) { imgPoke = img; }
+            <LazyLoad>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <div className='poke-container'>
+                        {pokemons.map((pokemon, index) => {
+                            let img: string | null = pokemon.sprites.front_default;
+                            let imgPoke: string | undefined;
+                            if (img !== null) { imgPoke = img; }
 
-                    return (
-                        <div className='poke' id='poke' key={index}>
-                            <img src={imgPoke} alt="Sprite Indisponível" />
-                            <br />
-                            <p>{pokemon.name}</p>
-                        </div>
-                    );
-                })}
-            </div>
+                            return (
+                                <div className='poke' id='poke' key={index}>
+                                    <img src={imgPoke} alt="Sprite Indisponível" />
+                                    <br />
+                                    <p>{pokemon.name}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </Suspense>
+            </LazyLoad>
         </>
     );
 
