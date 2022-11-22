@@ -133,14 +133,14 @@ function PokemonBox() {
             <LazyLoad>
                 <Suspense fallback={<div>Loading...</div>}>
                     <div className='poke-container'>
-                        {pokemons.map((pokemon, index) => {
+                        {pokemons.slice(0,5).map((pokemon, index) => {
                             let img: string | null = pokemon.sprites.front_default;
                             let imgPoke: string | undefined;
                             if (img !== null) { imgPoke = img; }
 
                             return (
                                 <div className='poke' id='poke' key={index}>
-                                    <img src={imgPoke} alt="Sprite Indisponível" />
+                                    <img loading='lazy' src={imgPoke} alt="Sprite Indisponível" />
                                     <br />
                                     <p>{pokemon.name}</p>
                                 </div>
