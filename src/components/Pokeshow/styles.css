@@ -1,0 +1,84 @@
+@font-face {
+    font-family: pokemon;
+    src: url(../../assets/fonts/pokemon_pixel_font.ttf);
+}
+
+.title {
+    position: absolute;
+    top: -15px;
+    right: 0;
+    padding-right: 10px;
+}
+
+.title h4 {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    padding-right: 10px;
+}
+
+.color-container {
+    display: flex;
+    align-items: center;
+    align-content: flex-start;
+    width: 50%;
+    height: 50%;
+    padding: 10px 0px 0px 10px;
+}
+
+.CPicker {
+    padding: 10px 0px 0px 10px;
+}
+
+.poke-container {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 25px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.poke {
+    margin: 3px;
+    font-family: pokemon;
+    text-transform: capitalize;
+    font-size: 40px;
+    -webkit-text-fill-color: black;
+    text-align: center;
+    align-items: center;
+    width: 250px;
+}
+
+.poke img {
+    filter: drop-shadow(0px 10px 3px black);
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    width: 100%;
+    height: 100%;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    transform-origin: bottom;
+}
+
+.poke img:hover {
+    animation-name: bounce;
+    animation-timing-function: ease;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-25px);
+        transform: rotateX(35deg);
+    }
+    100% {
+        transform: translateY(0);
+        transform: rotateX(0deg);
+    }
+}
