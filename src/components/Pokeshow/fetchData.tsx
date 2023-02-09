@@ -1,7 +1,4 @@
 import Pokedex from 'pokedex-promise-v2';
-import { useState } from 'react';
-//import { useState } from 'react';
-import wrapPromise from './wrapPromise';
 
 /**
  * Wrap Axios Request with the wrapPromise function

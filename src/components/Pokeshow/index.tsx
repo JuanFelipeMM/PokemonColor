@@ -1,3 +1,5 @@
+import noIMG from '../../assets/images/pokeiconSVG.svg';
+
 function Pokeshow(props: any) {
 
 
@@ -5,7 +7,7 @@ function Pokeshow(props: any) {
 
         return (
             <>
-                <img loading="lazy" src={img} alt="Sprite Indisponível" />
+                <img loading="lazy" src={img} alt={noIMG} />
             </>
         );
     }

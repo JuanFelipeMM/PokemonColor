@@ -1,9 +1,9 @@
-
+import './styles.css';
+import Load from '../Load'
 import Pokedex from 'pokedex-promise-v2';
-import React, { lazy } from 'react';
+import React from 'react';
 import { useEffect, useState } from "react";
 import { Suspense } from 'react';
-import './styles.css';
 import { CirclePicker } from 'react-color';
 import LazyLoad from 'react-lazy-load';
 import fetchData from '../Pokeshow/fetchData';
@@ -13,6 +13,7 @@ const Pokeshow = React.lazy(() => {
 });
 
 var firstLoad: boolean = false;
+var firstLoadR: boolean = false;
 
 function PokemonBox() {
 
@@ -26,6 +27,8 @@ function PokemonBox() {
     if (firstLoad === false) {
         firstLoad = true;
         setColorPick(colors[Math.floor(Math.random() * colors.length)]);
+
+
     }
     
     useEffect(() => {
@@ -43,9 +46,35 @@ function PokemonBox() {
             }
             document.getElementsByClassName('title')[0].setAttribute("style", "-webkit-text-fill-color: black");
         }
+
+        /*if (firstLoadR === false) {
+            firstLoadR = true;
+
+           var patgrid= document.getElementsByClassName('PatternGrid');
+
+            var ph=document.documentElement.scrollHeight;
+            var pw=document.documentElement.scrollWidth;
+            var quant:number=Math.floor(ph/20);
+            var H:number=0;
+            console.log("Quant:",quant);
+            for(let i=0;i<quant;i++){
+                console.log("H:",H);
+                if(H<ph){
+                    patgrid[0].innerHTML+= '<div style="height:'+H+'px;">OI</div>';
+                    var random=Math.floor(Math.random() * (25 - (-25)) + 1) + (-25);
+                    console.log("Random:",random);
+                    H+=quant+random;
+                }  
+            }
+
+        }*/
+        
     }, [pokemons]);
 
     useEffect(() => {
+
+        
+
         switch (colorPick) {
             case '#ffffff': setColor('white');
                 document.body.style.background = 'linear-gradient(to bottom, #E2E2E2 0%,  #E1AEAE 10%, #E2E2E2 20%, #AFE1AE 40%, #E2E2E2 60%, #AEB0E1 80%, #E2E2E2 100%)';
@@ -79,12 +108,13 @@ function PokemonBox() {
                 break;
 
         }
+
     }, [colorPick]);
 
-    useEffect(() => {
+    /*useEffect(() => {
 
         setPokemon([]);
-    }, [color]);
+    }, [color]);*/
 
     useEffect(() => {
 
@@ -107,6 +137,7 @@ function PokemonBox() {
 
     return (
         <>
+            <div className='PatternGrid'></div>    
             <div className='color-container'>
                 <div className='title'>
                     <h1>Pokémon Color</h1>
@@ -116,8 +147,7 @@ function PokemonBox() {
                 <CirclePicker className='CPicker' colors={colors} onChangeComplete={(color => (setColorPick(color.hex)))}></CirclePicker>
 
             </div>
-
-            <div className='poke-container'>
+  
                 <div className='poke-container'>
                     {pokemons.map((pokemon: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; sprites: { front_default: string | null; }; id: React.Key | null | undefined; }) => {
 
@@ -131,7 +161,7 @@ function PokemonBox() {
 
                             <div className='poke' id='poke' key={pokemon.id} >
                                 <LazyLoad>
-                                    <Suspense fallback={<>Loading...</>}>
+                                    <Suspense fallback={<Load/>}>
                                         <Pokeshow imgPoke={imgPoke} />
                                     </Suspense>
                                 </LazyLoad>
@@ -146,8 +176,6 @@ function PokemonBox() {
                     )
                     }
                 </div>
-            </div>
-
 
         </>
     );

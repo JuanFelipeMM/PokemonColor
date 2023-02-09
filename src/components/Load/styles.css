@@ -1,0 +1,16 @@
+img {
+    width: 5%;
+    height: 5%;
+    animation-name: rotate;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(0deg);
+    }
+    100% {
+        transform: rotateX(360deg);
+    }
+}

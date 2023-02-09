@@ -3,6 +3,21 @@
     src: url(../../assets/fonts/pokemon_pixel_font.ttf);
 }
 
+body {
+    margin: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+.PatternGrid {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+
 .title {
     position: absolute;
     top: -15px;
