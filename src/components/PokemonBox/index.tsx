@@ -40,11 +40,13 @@ function PokemonBox() {
                 poke[i].setAttribute("style", "-webkit-text-fill-color: blueviolet");
             }
             document.getElementsByClassName('title')[0].setAttribute("style", "-webkit-text-fill-color: blueviolet");
+            document.getElementsByClassName('color-name')[0].setAttribute("style", "-webkit-text-fill-color: blueviolet");
         } else {
             for (let i = 0; i < poke.length; i++) {
                 poke[i].setAttribute("style", "-webkit-text-fill-color:black");
             }
             document.getElementsByClassName('title')[0].setAttribute("style", "-webkit-text-fill-color: black");
+            document.getElementsByClassName('color-name')[0].setAttribute("style", "-webkit-text-fill-color: black");
         }
 
         /*if (firstLoadR === false) {
@@ -147,9 +149,10 @@ function PokemonBox() {
                 <CirclePicker className='CPicker' colors={colors} onChangeComplete={(color => (setColorPick(color.hex)))}></CirclePicker>
 
             </div>
-  
+            <br />
+            <div className='color-name'>{color}</div>
                 <div className='poke-container'>
-                    {pokemons.map((pokemon: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; sprites: { front_default: string | null; }; id: React.Key | null | undefined; }) => {
+                    {pokemons.sort((a:Pokedex.Pokemon, b:Pokedex.Pokemon) => a.id - b.id).map((pokemon: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; sprites: { front_default: string | null; }; id: React.Key | null | undefined; }) => {
 
                         let imgPoke = wrapPromise(Promise.resolve(pokemon.sprites.front_default));
 
@@ -183,5 +186,6 @@ function PokemonBox() {
 
 
 }
+
 
 export default PokemonBox;

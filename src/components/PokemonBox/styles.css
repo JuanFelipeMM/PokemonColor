@@ -11,6 +11,18 @@ body {
     background-attachment: fixed;
 }
 
+.color-name {
+    display: flex;
+    margin: auto;
+    width: 50%;
+    font-family: pokemon;
+    font-size: 25px;
+    text-transform: uppercase;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
 .PatternGrid {
     position: absolute;
     z-index: -1;
