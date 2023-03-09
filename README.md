@@ -7,7 +7,7 @@
 **Português:** Neste app você tem diferentes cores para escolher, para cada cor meu app irá mostrar um grupo de Pokémon com está cor.
 
 ## Site
-**Netlify:** [Pokémon Color](pokemoncolor.netlify.app)
+**Netlify:** [Pokémon Color](https://pokemoncolor.netlify.app)
 
 ## Creator
 App created by Juan Felipe
