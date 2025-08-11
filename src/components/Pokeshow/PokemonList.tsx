@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import fetchData from './fetchData';
+import './PokemonList.css'; // Importe o CSS para responsividade
 
 interface PokemonListProps {
   color: string;
@@ -28,28 +29,16 @@ function PokemonList({ color }: PokemonListProps) {
 
   if (loading) {
     return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0, bottom: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'rgba(255,255,255,0.8)',
-          zIndex: 1000,
-          fontSize: '2rem',
-          fontWeight: 'bold',
-        }}
-      >
+      <div className="pokemon-loading-overlay">
         Carregando os Pokémon...
       </div>
     );
   }
 
-  if (!pokemons.length) return <div>Nenhum pokémon encontrado.</div>;
+  if (!pokemons.length) return <div className="pokemon-empty">Nenhum pokémon encontrado.</div>;
 
   return (
-    <div>
+    <div className="pokemon-list">
       {pokemons.map((p) => (
         <img key={p.id} src={p.sprites.front_default} alt={p.name} />
       ))}
